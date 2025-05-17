@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  auth:
+    build: ./auth
+    container_name: auth_service
+    ports:
+      - "3001:3000"
+    networks:
+      - microservice-net
+    depends_on:
+      - user
+
+  task:
+    build: ./task
+    container_name: task_service
+    ports:
+      - "3002:3000"
+    networks:
+      - microservice-net
+    depends_on:
+      - auth
+      - user
+
+  user:
+    build: ./user
+    container_name: user_service
+    ports:
+      - "3003:3000"
+    networks:
+      - microservice-net
+
+networks:
+  microservice-net:
+    driver: bridge
